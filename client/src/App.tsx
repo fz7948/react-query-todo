@@ -3,18 +3,16 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 
 import { router } from '@/routes';
-import { GlobalStyle } from '@/styles';
 
 function App() {
     return (
-        <>
-            <GlobalStyle />
+        <main className="flex flex-col w-full h-full max-w-screen-2xl mx-auto">
             <RouterProvider router={router} />
             <ReactQueryDevtools
                 initialIsOpen={false}
                 position={'bottom-right'}
             />
-        </>
+        </main>
     );
 }
 
