@@ -1,8 +1,14 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { LOGIN_URL, LOGOUT_URL, MAIN_URL, SIGN_UP_URL } from '@/constants';
-import { Login, SignUp, Root } from '@/pages';
+import {
+    LOGIN_URL,
+    LOGOUT_URL,
+    MAIN_URL,
+    SIGN_UP_URL,
+    TODO_URL,
+} from '@/constants';
+import { Login, SignUp, Root, TodoList } from '@/pages';
 
 const router = createBrowserRouter([
     {
@@ -19,6 +25,10 @@ const router = createBrowserRouter([
     {
         path: SIGN_UP_URL,
         element: <SignUp />,
+    },
+    {
+        path: TODO_URL,
+        element: <TodoList />,
     },
 ]);
 

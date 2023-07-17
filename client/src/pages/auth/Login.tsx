@@ -2,17 +2,18 @@ import cx from 'classnames';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { formType } from 'src/types';
+import { FormType } from 'src/types';
 import {
     MAIN_URL,
     SIGN_UP_URL,
     TOKEN,
     SUBMIT_BUTTON_CLASS,
     LOGIN_API_URL,
+    TODO_URL,
 } from '@/constants';
 import { emailValidation, passwordValidation } from '@/utils';
-import { useReactQueryMutation } from 'src/api/query';
-import { TextInput } from '@/components';
+import { useMutationPost } from 'src/api/query';
+import { FormInput } from '@/components';
 
 const initialState = {
     email: '',
@@ -21,10 +22,13 @@ const initialState = {
 
 function Login() {
     const navigate = useNavigate();
-    const { mutate } = useReactQueryMutation({ url: LOGIN_API_URL });
 
-    const [formState, setForm] = useState<formType>(initialState);
-    const [errorMsgState, setErrorMsg] = useState<formType>(initialState);
+    const { mutate } = useMutationPost({
+        url: LOGIN_API_URL,
+    });
+
+    const [formState, setForm] = useState<FormType>(initialState);
+    const [errorMsgState, setErrorMsg] = useState<FormType>(initialState);
 
     const isActive =
         Object.values(formState).every((value) => value) &&
@@ -53,18 +57,26 @@ function Login() {
                 : '비밀번호는 최소 8자리 이상 입력해주세요.',
         });
 
-        mutate(formState);
+        mutate(formState, {
+            onSuccess: (data) => {
+                localStorage.setItem(TOKEN, data.token);
+                navigate(TODO_URL);
+            },
+            onError: (error) => {
+                console.error(error);
+            },
+        });
     };
 
     useEffect(() => {
-        if (!!localStorage.getItem(TOKEN)) {
+        if (!localStorage.getItem(TOKEN)) {
             navigate(MAIN_URL);
         }
-    }, []);
+    }, [navigate]);
 
     return (
         <section className="flex flex-col items-center flex-1 p-10 gap-[1rem]">
-            <TextInput
+            <FormInput
                 onFocus={(e) => handleFormFocus(e)}
                 type="text"
                 name="email"
@@ -72,7 +84,7 @@ function Login() {
                 onChange={handleFormChange}
                 errorMsg={errorMsgState.email}
             />
-            <TextInput
+            <FormInput
                 onFocus={(e) => handleFormFocus(e)}
                 type="password"
                 name="password"

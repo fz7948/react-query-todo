@@ -1,10 +1,11 @@
 import cx from 'classnames';
-import { TextInput } from '@/components';
-import { SIGN_UP_API_URL, SUBMIT_BUTTON_CLASS } from '@/constants';
+import { FormInput } from '@/components';
+import { LOGIN_URL, SIGN_UP_API_URL, SUBMIT_BUTTON_CLASS } from '@/constants';
 import React, { useState } from 'react';
-import { useReactQueryMutation } from 'src/api/query';
-import { formType } from 'src/types';
+import { useMutationPost } from 'src/api/query';
+import { FormType } from 'src/types';
 import { emailValidation, passwordValidation } from '@/utils';
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
     email: '',
@@ -12,10 +13,12 @@ const initialState = {
 } as const;
 
 function SignUp() {
-    const { mutate } = useReactQueryMutation({ url: SIGN_UP_API_URL });
+    const navigate = useNavigate();
 
-    const [formState, setForm] = useState<formType>(initialState);
-    const [errorMsgState, setErrorMsg] = useState<formType>(initialState);
+    const { mutate } = useMutationPost({ url: SIGN_UP_API_URL });
+
+    const [formState, setForm] = useState<FormType>(initialState);
+    const [errorMsgState, setErrorMsg] = useState<FormType>(initialState);
 
     const isActive =
         Object.values(formState).every((value) => value) &&
@@ -44,12 +47,19 @@ function SignUp() {
                 : '비밀번호는 최소 8자리 이상 입력해주세요.',
         });
 
-        mutate(formState);
+        mutate(formState, {
+            onSuccess: () => {
+                navigate(LOGIN_URL);
+            },
+            onError: (error) => {
+                console.error(error);
+            },
+        });
     };
 
     return (
         <section className="flex flex-col items-center flex-1 p-10 gap-[1rem]">
-            <TextInput
+            <FormInput
                 onFocus={(e) => handleFormFocus(e)}
                 type="text"
                 name="email"
@@ -57,7 +67,7 @@ function SignUp() {
                 onChange={handleFormChange}
                 errorMsg={errorMsgState.email}
             />
-            <TextInput
+            <FormInput
                 onFocus={(e) => handleFormFocus(e)}
                 type="password"
                 name="password"

@@ -1,14 +1,14 @@
-export type formType = {
+export type FormType = {
     email: string;
     password: string;
 };
 
-export type variableType = {
+export type VariableType = {
     email: string;
     password: string;
 };
 
-export type responseType = {
+export type ResponseType = {
     message: string;
     token: string;
 };

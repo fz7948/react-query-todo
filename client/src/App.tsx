@@ -6,7 +6,7 @@ import { router } from '@/routes';
 
 function App() {
     return (
-        <main className="flex flex-col w-full h-full max-w-screen-2xl mx-auto">
+        <main className="flex flex-col w-full h-full max-w-screen-md mx-auto">
             <RouterProvider router={router} />
             <ReactQueryDevtools
                 initialIsOpen={false}
