@@ -17,8 +17,10 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "axios": "^1.4.0",
+    "babel-plugin-react-remove-properties": "^0.3.0",
     "classnames": "^2.3.2",
     "customize-cra": "^1.0.0",
+    "cypress": "^12.17.2",
     "dayjs": "^1.11.9",
     "lodash": "^4.17.21",
     "prettier": "^2.7.1",
@@ -37,7 +39,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
