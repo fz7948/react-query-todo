@@ -73,6 +73,7 @@ export default function TodoList() {
     const editInputRef = React.useRef<HTMLInputElement>(null);
 
     const isMessageValid = !!message.title && !!message.content;
+    const isEditById = (id: string) => editedById === id;
 
     const handleMessageChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -210,7 +211,7 @@ export default function TodoList() {
                                         }}
                                         onClick={(e) => e.stopPropagation()}
                                     />
-                                    {editedById === list.id ? (
+                                    {isEditById(list.id) ? (
                                         <input
                                             ref={editInputRef}
                                             className="mr-[1rem] ml-[0.3rem] flex-1 h-[25px] rounded-[5px]"
@@ -246,7 +247,7 @@ export default function TodoList() {
                                         </div>
                                     )}
                                     <div className="flex gap-[0.6rem] pr-[0.5rem]">
-                                        {editedById === list.id ? (
+                                        {isEditById(list.id) ? (
                                             <>
                                                 <button
                                                     onClick={() =>
