@@ -29,10 +29,7 @@ function SignUp() {
         setForm({ ...formState, [name]: value });
     };
 
-    const handleFormFocus = (
-        e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
-    ) => {
-        const { name } = e.target;
+    const handleFormReset = (name: string) => {
         setErrorMsg({ ...errorMsgState, [name]: '' });
     };
 
@@ -60,20 +57,22 @@ function SignUp() {
     return (
         <section className="flex flex-col items-center flex-1 p-10 gap-[1rem]">
             <FormInput
-                onFocus={(e) => handleFormFocus(e)}
+                onReset={(name) => handleFormReset(name)}
                 type="text"
                 name="email"
                 label="이메일"
                 onChange={handleFormChange}
                 errorMsg={errorMsgState.email}
+                value={formState.email}
             />
             <FormInput
-                onFocus={(e) => handleFormFocus(e)}
+                onReset={(name) => handleFormReset(name)}
                 type="password"
                 name="password"
                 label="비밀번호"
                 onChange={handleFormChange}
                 errorMsg={errorMsgState.password}
+                value={formState.password}
             />
             <button
                 className={
